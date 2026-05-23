@@ -1,7 +1,7 @@
 # conversation-analyser
 
 Critical-thinking and analytics for human–AI conversations — a member of the
-[`lens`](../) analyser family.
+[analyser family](https://github.com/michael-borck/lens-analysers).
 
 It scores a single conversation on two tiers:
 
