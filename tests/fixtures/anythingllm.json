@@ -1,0 +1,4 @@
+[
+  {"prompt": "Summarise the SECI model for me", "response": "{\"text\": \"The SECI model by Nonaka describes knowledge creation through Socialisation, Externalisation, Combination, and Internalisation.\", \"type\": \"chat\"}", "createdAt": 1716000000000},
+  {"prompt": "Now just write me a 500 word essay on it", "response": "{\"text\": \"Sure, here is a 500 word essay on the SECI model...\", \"type\": \"chat\"}", "createdAt": 1716000600000}
+]

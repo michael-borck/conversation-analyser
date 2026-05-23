@@ -1,0 +1,9 @@
+[
+  {"role": "user", "content": "What is ISO 27001?"},
+  {"role": "assistant", "content": "ISO 27001 is the international standard for information security management systems (ISMS)."},
+  {"role": "user", "content": "Why would a small startup bother with full certification rather than just SOC 2?"},
+  {"role": "assistant", "content": "Certification signals trust to enterprise customers and structures your controls."},
+  {"role": "user", "content": "I disagree that it's worth it for us. Compare 27001 and SOC 2 for a 10-person SaaS in our case."},
+  {"role": "assistant", "content": "Here is a comparison across cost, scope, and customer expectations..."},
+  {"role": "user", "content": "Thanks, that helps."}
+]

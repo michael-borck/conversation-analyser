@@ -1,0 +1,7 @@
+User: How do I structure a data flow diagram for the CSMP platform?
+Assistant: A DFD has external entities, processes, data stores, and data flows. Start with a context diagram.
+User: Actually, I think you missed the level-0 decomposition. Why start at the context diagram first?
+Assistant: The context diagram sets the system boundary before you decompose into level-0 processes.
+Me: That makes sense — so for our operations team the boundary would include the vendor portal. Compare that to keeping it external.
+Assistant: Good extension. Treating the vendor portal as internal changes your trust assumptions...
+Me: Thanks!
