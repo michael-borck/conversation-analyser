@@ -53,13 +53,15 @@ IDLE_GAP_MIN = 30.0
 # --- Critical-thinking composite score (0-100) ---
 # score = 100 * clamp( w_ratio*ct_ratio + w_chain*norm(chain) + w_pushback*norm(pushback)
 #                      - w_deleg*delegation_ratio - w_filler*filler_ratio , 0, 1)
-# Defaults are a starting point only; the first calibration target is to tune
-# these so score bins reproduce the band boundaries (see design spec §5, §15).
+# Calibrated 2026-05-23 against 45 real labelled transcripts to make the score
+# monotonic with the authoritative band: band-order inversions dropped 5.1% -> 2.4%
+# (medians Delegator 10 / Directed 27 / Iterative 39 / Critical 57). Re-tune with
+# scripts/calibrate_ct_score.py --grid --signals <dir>.
 CT_SCORE_WEIGHTS = {
-    "ratio": 0.60,
-    "chain": 0.25,
-    "pushback": 0.15,
-    "deleg": 0.30,
+    "ratio": 0.70,
+    "chain": 0.10,
+    "pushback": 0.10,
+    "deleg": 0.20,
     "filler": 0.20,
 }
 CHAIN_CAP = 5  # longest_engaged_chain saturates here when normalised
