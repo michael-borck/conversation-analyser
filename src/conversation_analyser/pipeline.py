@@ -211,9 +211,10 @@ def _extract_text(path: Path) -> str:
         from document_analyser import extract_text
     except ImportError as exc:  # pragma: no cover
         raise ValueError(
-            f"{suffix} input needs text extraction. Install document-analyser "
-            "(pip install -e ../document-analyser) or pre-extract the text and pass "
-            "it (or a .txt/.json transcript) instead."
+            f"{suffix} input needs text extraction. Install the optional extra "
+            "(pip install 'conversation-analyser[documents]'), or for local dev "
+            "pip install -e ../document-analyser — or pre-extract the text and "
+            "pass a .txt/.json transcript instead."
         ) from exc
     return extract_text(path)  # pragma: no cover
 

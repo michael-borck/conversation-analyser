@@ -9,10 +9,10 @@ to stdout (this is what auto-analyser consumes). Diagnostics go to stderr.
 from __future__ import annotations
 
 import argparse
-import json
-import os
 import sys
 from pathlib import Path
+
+from lens_contract import run_contract_subcommands
 
 from .config import DEFAULT_PORT, IDLE_GAP_MIN
 from .manifest import MANIFEST
@@ -21,12 +21,13 @@ from .pipeline import ConversationAnalyser
 
 
 def main() -> None:
-    if len(sys.argv) > 1 and sys.argv[1] == "serve":
-        _serve(sys.argv[2:])
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "manifest":
-        print(json.dumps(MANIFEST, indent=2))
+    # `serve` and `manifest` are the family's shared subcommands (lens-contract).
+    if run_contract_subcommands(
+        MANIFEST,
+        app_path="conversation_analyser.api:app",
+        default_port=DEFAULT_PORT,
+        env_prefix="CONVERSATION_ANALYSER",
+    ):
         return
 
     parser = argparse.ArgumentParser(
@@ -109,20 +110,6 @@ def _print_human(result: ConversationAnalysis) -> None:
 
     if result.notes:
         console.print(f"[dim]Notes: {', '.join(result.notes)}[/dim]")
-
-
-def _serve(argv: list[str]) -> None:
-    import uvicorn
-
-    parser = argparse.ArgumentParser(prog="conversation-analyser serve")
-    parser.add_argument(
-        "--port", type=int, default=int(os.getenv("CONVERSATION_ANALYSER_PORT", str(DEFAULT_PORT)))
-    )
-    parser.add_argument(
-        "--host", default=os.getenv("CONVERSATION_ANALYSER_HOST", "127.0.0.1")
-    )
-    args = parser.parse_args(argv)
-    uvicorn.run("conversation_analyser.api:app", host=args.host, port=args.port)
 
 
 if __name__ == "__main__":

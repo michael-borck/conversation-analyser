@@ -1,4 +1,4 @@
-"""Capability manifest for the lens family.
+"""Capability manifest for the lens family (built via lens-contract).
 
 A small, stable descriptor every family member exposes (as a constant, via
 `conversation-analyser manifest`, and via `GET /manifest`). auto-analyser reads
@@ -10,22 +10,12 @@ to it automatically — it must be invoked deliberately.
 """
 from __future__ import annotations
 
-from importlib.metadata import PackageNotFoundError, version
+from lens_contract import make_manifest
 
-
-def _version() -> str:
-    try:
-        return version("conversation-analyser")
-    except PackageNotFoundError:
-        return "0.0.0"
-
-
-MANIFEST: dict = {
-    "name": "conversation-analyser",
-    "version": _version(),
-    "role": "analyser",
-    "accepts": ["text", "messages", "transcript"],
-    "extensions": [],  # explicit-only: not claimed for auto-routing
-    "auto_routable": False,
-    "produces": "ConversationAnalysis",
-}
+MANIFEST = make_manifest(
+    name="conversation-analyser",
+    accepts=["text", "messages", "transcript"],
+    extensions=[],  # explicit-only: not claimed for auto-routing
+    auto_routable=False,
+    produces="ConversationAnalysis",
+)
