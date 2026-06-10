@@ -38,7 +38,7 @@ _LABEL_ROLE: dict[str, str] = {
 # Longest labels first so "you said" wins over "you", "chatgpt said" over "chatgpt".
 _LABELS_SORTED = sorted(_LABEL_ROLE, key=len, reverse=True)
 _LABEL_RE = re.compile(
-    r"^[\s>*#-]*(?P<label>(?:" + "|".join(re.escape(l) for l in _LABELS_SORTED) + r"))\s*:\s*",
+    r"^[\s>*#-]*(?P<label>(?:" + "|".join(re.escape(lbl) for lbl in _LABELS_SORTED) + r"))\s*:\s*",
     re.IGNORECASE | re.MULTILINE,
 )
 

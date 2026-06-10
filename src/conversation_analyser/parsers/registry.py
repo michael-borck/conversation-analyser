@@ -4,6 +4,7 @@ Order in `auto` mode: structured adapters → heuristic markers → LLM-segment 
 unsegmented single-blob fallback. New formats are added by registering an
 adapter module (with `detect`, `parse`, `FORMAT_NAME`) in `_STRUCTURED`.
 """
+
 from __future__ import annotations
 
 import json
@@ -37,7 +38,9 @@ def _unsegmented(text: str, notes: list[str]) -> ParseResult:
     return ParseResult(turns, "text", "unsegmented", notes=notes)
 
 
-def parse(payload: object, *, mode: str = "auto", allow_llm: bool = True) -> ParseResult:
+def parse(
+    payload: object, *, mode: str = "auto", allow_llm: bool = True
+) -> ParseResult:
     if mode not in VALID_MODES:
         raise ParseError(f"unknown parse mode {mode!r}; expected one of {VALID_MODES}")
 
@@ -46,7 +49,9 @@ def parse(payload: object, *, mode: str = "auto", allow_llm: bool = True) -> Par
         candidate = _unwrap(payload)
         for adapter in _STRUCTURED:
             if adapter.detect(candidate):
-                return ParseResult(adapter.parse(candidate), adapter.FORMAT_NAME, "structured")
+                return ParseResult(
+                    adapter.parse(candidate), adapter.FORMAT_NAME, "structured"
+                )
         if mode == "structured":
             raise ParseError("no structured adapter matched the payload")
         # Unrecognised structured payload: stringify and try the text parsers.
@@ -64,9 +69,11 @@ def parse(payload: object, *, mode: str = "auto", allow_llm: bool = True) -> Par
 
     if mode in ("auto", "llm-segment"):
         if allow_llm:
-            turns = llm_segment.parse(text)
+            turns, segment_notes = llm_segment.parse(text)
             if turns:
-                return ParseResult(turns, "text", "llm-segment", notes=["llm_segment_preview_only"])
+                return ParseResult(
+                    turns, "text", "llm-segment", notes=notes + segment_notes
+                )
         else:
             notes.append("llm_unavailable")
 

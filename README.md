@@ -77,6 +77,15 @@ speaker markers → optional LLM segmentation → unsegmented fallback.
 `.pdf`/`.docx` inputs are text-extracted first (needs `pdfplumber`/`markitdown`,
 or pre-extract with `document-analyser`).
 
+**Long unstructured transcripts** taking the LLM-segment path are split on
+paragraph boundaries into chunks (`SEGMENT_CHUNK_CHARS`, default 36 000) and
+classified chunk-by-chunk, so the whole transcript is labelled — not just its
+opening — and the band/ratios/score reflect all of it. The number of chunks
+(= LLM calls) is guarded by `SEGMENT_MAX_CHUNKS` (default 12); raise or lift it
+per run, e.g. `CONVERSATION_ANALYSER_SEGMENT_MAX_CHUNKS=0` for unlimited. A
+capped run says so in `notes` rather than silently dropping the tail.
+Cleanly-labelled transcripts take the heuristic path and are never chunked.
+
 ## The taxonomy
 
 | Code | Meaning |

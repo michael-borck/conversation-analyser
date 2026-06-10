@@ -4,10 +4,29 @@ Thresholds, model names, and score weights live here so callers tune behaviour
 in one place. The taxonomy band thresholds and embeddings constants are ported
 verbatim from the ISYS6020 marking_pipeline (then forked — see the design spec).
 """
+
 from __future__ import annotations
+
+import os
 
 # --- LLM models ---
 CLASSIFIER_MODEL = "claude-haiku-4-5-20251001"
+
+# --- LLM-segment chunking (long unstructured transcripts) ---
+# The segmenter labels human turns in one Haiku call, but that call only sees the
+# first SEGMENT_CHUNK_CHARS characters — so a long unstructured transcript would
+# get only its opening labelled. Longer transcripts are split on paragraph
+# boundaries into chunks of this size, classified separately, then concatenated so
+# the WHOLE transcript is segmented before aggregation. Cleanly-labelled
+# transcripts take the heuristic path and never hit this.
+SEGMENT_CHUNK_CHARS = int(
+    os.getenv("CONVERSATION_ANALYSER_SEGMENT_CHUNK_CHARS", "36000")
+)
+# Guard on the number of chunks (= Haiku calls) per transcript, so a pathological
+# input can't silently fan out into many calls. 0 = unlimited. Raise per run, e.g.
+# `CONVERSATION_ANALYSER_SEGMENT_MAX_CHUNKS=0 conversation-analyser …`; when the cap
+# bites it analyses up to the cap and emits a note (never silently drops the tail).
+SEGMENT_MAX_CHUNKS = int(os.getenv("CONVERSATION_ANALYSER_SEGMENT_MAX_CHUNKS", "12"))
 
 # --- Engagement-spectrum heuristic band mapping (ported) ---
 # Consumed by taxonomy.suggested_band. Order of evaluation matters; see taxonomy.py.

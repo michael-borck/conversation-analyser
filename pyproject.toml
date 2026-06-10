@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "conversation-analyser"
-version = "0.2.2"
+version = "0.3.0"
 description = "Critical-thinking and analytics for human-AI conversations — a member of the lens analyser family."
 readme = "README.md"
 requires-python = ">=3.11"
