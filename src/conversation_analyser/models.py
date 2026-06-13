@@ -74,3 +74,7 @@ class ConversationAnalysis(BaseModel):
     session_count: int
     aggregate: SessionAnalysis
     sessions: list[SessionAnalysis] = Field(default_factory=list)
+    # Pooled, L2-normalised transcript vector from lens-embed (pinned
+    # all-MiniLM-L6-v2). Comparable across members; None unless [embeddings]
+    # installed or when with_embeddings=False.
+    embedding: list[float] | None = None

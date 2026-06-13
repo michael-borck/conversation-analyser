@@ -13,6 +13,7 @@ from typing import Any
 
 from . import analytics, embeddings, scoring, taxonomy
 from .config import IDLE_GAP_MIN
+from .embedding import embed_document
 from .llm import llm_available
 from .models import (
     ConversationAnalysis,
@@ -64,6 +65,9 @@ class ConversationAnalyser:
         ]
         aggregate = self._build_session(turns, -1, with_embeddings)
 
+        transcript = "\n".join(t.content for t in turns if getattr(t, "content", None))
+        embedding = embed_document(transcript) if with_embeddings else None
+
         return ConversationAnalysis(
             input=label,
             format_detected=parsed.format_name,
@@ -73,6 +77,7 @@ class ConversationAnalyser:
             session_count=len(sessions),
             aggregate=aggregate,
             sessions=sessions,
+            embedding=embedding,
         )
 
     # -- loading ------------------------------------------------------------

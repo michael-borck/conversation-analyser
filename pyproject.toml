@@ -26,7 +26,7 @@ dependencies = [
 # extractor. The import in pipeline.py is lazy, so this is optional: plain
 # text/JSON transcripts work without it.
 documents = ["document-analyser>=0.4.0"]
-embeddings = ["sentence-transformers>=2.2", "numpy>=1.24"]
+embeddings = ["lens-embed[text]>=0.1.1"]
 llm = ["anthropic>=0.39"]
 dev = ["pytest>=8.0", "httpx>=0.27.0"]
 
@@ -34,6 +34,7 @@ dev = ["pytest>=8.0", "httpx>=0.27.0"]
 # the published wheel, which keeps the plain `lens-contract>=0.1.0` PyPI pin.
 [tool.uv.sources]
 lens-contract = { path = "../lens-contract", editable = true }
+lens-embed = { path = "../lens-embed", editable = true }
 
 [project.scripts]
 conversation-analyser = "conversation_analyser.cli:main"
